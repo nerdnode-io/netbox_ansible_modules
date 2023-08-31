@@ -237,6 +237,10 @@ DOCUMENTATION = """
             type: boolean
             default: True
             version_added: "3.6.0"
+        headers:
+            description: Dictionary of headers to be passed to the NetBox API.
+            type: dict
+            default: {}
 """
 
 EXAMPLES = """
@@ -346,6 +350,15 @@ api_endpoint: http://localhost:8000
 token:
   type: Bearer
   value: test123456
+
+# Example of adding custom headers (Cloudflare Zero Trust)
+
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8000
+token: <insert token>
+header:
+    CF-Access-Client-Id: <Client ID>
+    CF-Access-Client-Secret: <Client Secret>
 """
 
 import json
@@ -2030,6 +2043,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
+            **self.get_option("headers"),
         }
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
