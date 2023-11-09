@@ -119,7 +119,7 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "3.5.0"
-        netbox_services:
+        services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
             default: True
@@ -594,10 +594,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     }
                 )
 
-        if self.netbox_services:
+        if self.services:
             extractors.update(
                 {
-                    "netbox_services": self.extract_services,
+                    "services": self.extract_services,
                 }
             )
 
@@ -1255,10 +1255,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def refresh_services(self):
         url = self.api_endpoint + "/api/ipam/services/?limit=0"
-        netbox_services = []
+        services = []
 
         if self.fetch_all:
-            netbox_services = self.get_resource_list(url)
+            services = self.get_resource_list(url)
         else:
             device_services = self.get_resource_list_chunked(
                 api_url=url,
@@ -1270,14 +1270,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 query_key="virtual_machine_id",
                 query_values=self.vms_lookup.keys(),
             )
-            netbox_services = chain(device_services, vm_services)
+            services = chain(device_services, vm_services)
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
         self.device_services_lookup = defaultdict(dict)
         self.vm_services_lookup = defaultdict(dict)
 
-        for service in netbox_services:
+        for service in services:
             service_id = service["id"]
 
             if service.get("device"):
@@ -1443,7 +1443,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.prefixes:
             lookups.append(self.refresh_prefixes)
 
-        if self.netbox_services:
+        if self.services:
             lookups.append(self.refresh_services)
 
         if self.racks:
@@ -1696,7 +1696,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return None
 
         # Special case. Extract name from service, which is a hash.
-        if grouping == "netbox_services":
+        if grouping == "services":
             group = group["name"]
             grouping = "service"
 
@@ -2036,7 +2036,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
-        self.netbox_services = self.get_option("services")
+        self.services = self.get_option("services")
         self.site_data = self.get_option("site_data")
         self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
