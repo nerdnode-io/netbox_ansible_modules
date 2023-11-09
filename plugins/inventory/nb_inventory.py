@@ -594,7 +594,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     }
                 )
 
-        if self.netbox_services:
+        if self.services:
             extractors.update(
                 {
                     "netbox_services": self.extract_services,
