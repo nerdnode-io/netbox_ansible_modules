@@ -594,7 +594,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     }
                 )
 
-        if self.services:
+        if self.netbox_services:
             extractors.update(
                 {
                     "services": self.extract_services,
@@ -1443,7 +1443,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.prefixes:
             lookups.append(self.refresh_prefixes)
 
-        if self.services:
+        if self.netbox_services:
             lookups.append(self.refresh_services)
 
         if self.racks:
@@ -2036,7 +2036,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
-        self.services = self.get_option("services")
+        self.netbox_services = self.get_option("services")
         self.site_data = self.get_option("site_data")
         self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
