@@ -119,7 +119,7 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "3.5.0"
-        services:
+        netbox_services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
             default: True
@@ -1696,7 +1696,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return None
 
         # Special case. Extract name from service, which is a hash.
-        if grouping == "services":
+        if grouping == "netbox_services":
             group = group["name"]
             grouping = "service"
 
