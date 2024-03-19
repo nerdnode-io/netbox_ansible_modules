@@ -237,6 +237,10 @@ DOCUMENTATION = """
             type: boolean
             default: True
             version_added: "3.6.0"
+        headers:
+            description: Dictionary of headers to be passed to the NetBox API.
+            type: dict
+            default: {}
 """
 
 EXAMPLES = """
