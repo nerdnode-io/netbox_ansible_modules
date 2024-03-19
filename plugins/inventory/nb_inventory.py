@@ -531,6 +531,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "memory": self.extract_memory,
             "vcpus": self.extract_vcpus,
             "status": self.extract_status,
+            "last_updated": self.extract_last_updated,
             "config_context": self.extract_config_context,
             "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
@@ -661,6 +662,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_memory(self, host):
         return host.get("memory")
+    
+    def extract_last_updated(self, host):
+        return host.get("last_updated")
 
     def extract_platform(self, host):
         try:
