@@ -13,6 +13,7 @@ DOCUMENTATION = """
         - Nikhil Singh Baliyan (@nikkytub)
         - Sander Steffann (@steffann)
         - Douglas Heriot (@DouglasHeriot)
+        - Anthony Anderson (@anthonyra)
     short_description: NetBox inventory source
     description:
         - Get inventory hosts from NetBox
@@ -350,6 +351,13 @@ api_endpoint: http://localhost:8000
 token:
   type: Bearer
   value: test123456
+
+# Example of adding custom headers (Cloudflare Zero Trust)
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8000
+header:
+    CF-Access-Client-Id: <Client ID>
+    CF-Access-Client-Secret: <Client Secret>
 """
 
 import json
